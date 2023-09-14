@@ -297,12 +297,6 @@ namespace AgenciaDeAutos
                         Console.Write("\nAutomóvil removido correctamente");
                         Console.ReadKey();
                     }
-                    /*else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("\tAgencia de Automóviles");
-                        Console.Write("\nEl automóvil que desea eliminar no se encuentra en el repositorio");
-                    }*/
                 }
                 catch (Exception ex)
                 {
