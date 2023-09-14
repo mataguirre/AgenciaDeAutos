@@ -36,38 +36,20 @@ namespace AgenciaDeAutos
         private bool onInit = true;
         private int _vehiculosCount;
 
-        public VehiculoService() { }
-
-        public VehiculoService(
-            string patente,
-            decimal kilometros,
-            int anio,
-            int marcaId,
-            string modelo,
-            int segmentoId,
-            int combustibleId,
-            decimal precioVenta,
-            string observaciones
-        )
+        public VehiculoService()
         {
-            _patente = patente;
-            _kilometros = kilometros;
-            _anio = anio;
-            _marcaId = marcaId;
-            _modelo = modelo;
-            _segmentoId = segmentoId;
-            _combustibleId = combustibleId;
-            _precioVenta = precioVenta;
-            _observaciones = observaciones;
+            _vehiculosRepository = GetList(false);
+            _patentesRepository = _patenteService.GetList(false);
         }
-
         public List<Vehiculo> GetList(bool info = true)
         {
             if (File.Exists(_vehiculosFilePath))
             {
-                Console.Clear();
-                Console.WriteLine("\tListado de Automóviles");
-
+                if (info)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\tListado de Automóviles");
+                }
                 _file = new FileStream(_vehiculosFilePath, FileMode.Open);
                 _sr = new StreamReader(_file);
 
@@ -128,32 +110,29 @@ namespace AgenciaDeAutos
                 }
                 else
                 {
-                    if (info)
+                    _vehiculosCount = 0;
+                    while (!_sr.EndOfStream)
                     {
-                        _vehiculosCount = 0;
-                        while (!_sr.EndOfStream)
-                        {
-                            string[] fields = _sr.ReadLine().Split(';');
+                        string[] fields = _sr.ReadLine().Split(';');
 
-                            if (info)
-                            {
-                                Console.WriteLine($"\nPatente: {fields[1]}");
-                                Console.WriteLine($"Modelo: {fields[8]}");
-                                Console.WriteLine($"Año: {fields[2]}");
-                                Console.WriteLine($"Combustible: {fields[3]}");
-                                Console.WriteLine($"Kilometros: {fields[4]} km");
-                                Console.WriteLine($"Segmento: {fields[5]}");
-                                Console.WriteLine($"Precio de Venta: ${fields[6]}");
-                                Console.WriteLine($"Observaciones: {fields[7]}");
-                                Console.WriteLine($"Marca: {fields[9]}");
-                            }
-                            _vehiculosCount++;
-                        }
                         if (info)
                         {
-                            Console.Write($"\nCantidad de automóviles: {_vehiculosCount}");
-                            Console.ReadKey();
+                            Console.WriteLine($"\nPatente: {fields[1]}");
+                            Console.WriteLine($"Modelo: {fields[8]}");
+                            Console.WriteLine($"Año: {fields[2]}");
+                            Console.WriteLine($"Combustible: {fields[3]}");
+                            Console.WriteLine($"Kilometros: {fields[4]} km");
+                            Console.WriteLine($"Segmento: {fields[5]}");
+                            Console.WriteLine($"Precio de Venta: ${fields[6]}");
+                            Console.WriteLine($"Observaciones: {fields[7]}");
+                            Console.WriteLine($"Marca: {fields[9]}");
                         }
+                        _vehiculosCount++;
+                    }
+                    if (info)
+                    {
+                        Console.Write($"\nCantidad de automóviles: {_vehiculosCount}");
+                        Console.ReadKey();
                     }
                 }
                 _sr.Close();
@@ -161,14 +140,16 @@ namespace AgenciaDeAutos
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("\tAgencia de Automóviles");
-                Console.Write("\nConcesionaria inhabilitada por el momento");
-                Console.ReadKey();
+                if (info)
+                {
+                    Console.Clear();
+                    Console.WriteLine("\tAgencia de Automóviles");
+                    Console.Write("\nConcesionaria inhabilitada por el momento");
+                    Console.ReadKey();
+                }
             }
             return _vehiculosRepository;
         }
-
         public void SetList()
         {
             Console.Clear();
@@ -236,7 +217,6 @@ namespace AgenciaDeAutos
             }
             else
             {
-                _patentesRepository = _patenteService.GetList(false);
                 Console.WriteLine("\tAgencia de Automóviles");
                 /* Instancio la clase FileStream */
                 _file = new FileStream(_vehiculosFilePath, FileMode.Append);
@@ -310,7 +290,6 @@ namespace AgenciaDeAutos
                 Console.ReadKey();
             }
         }
-
         public void DeleteItem()
         {
             if (File.Exists(_vehiculosFilePath))
@@ -319,8 +298,7 @@ namespace AgenciaDeAutos
                 Console.WriteLine("\tAgencia de Automóviles");
                 Console.Write("\nIngrese la patente del automóvil a retirar: ");
                 string patente = Console.ReadLine();
-
-                _vehiculosRepository = GetList(false);
+                Vehiculo _vehiculoARemover = new Vehiculo();
                 /* Verifico si existe el automóvil en el repositorio */
                 bool vehiculoEncontrado = false;
                 int indexToRemove = -1;
@@ -329,6 +307,7 @@ namespace AgenciaDeAutos
                 {
                     if (_vehiculosRepository[i].Patente == patente)
                     {
+                        _vehiculoARemover = _vehiculosRepository[i];
                         vehiculoEncontrado = true;
                         indexToRemove = i;
                         break;
@@ -345,9 +324,11 @@ namespace AgenciaDeAutos
 
                     _patenteService.DeleteItem(patente);
 
+                    _vehiculosRepository.Remove(_vehiculoARemover);
+
                     Console.Clear();
                     Console.WriteLine("\tAgencia de Automóviles");
-                    Console.Write("\nAutomóvil retirado correactamente");
+                    Console.Write("\nAutomóvil retirado correctamente");
                     Console.ReadKey();
                 }
                 else

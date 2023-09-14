@@ -17,9 +17,10 @@ namespace AgenciaDeAutos.Servicios
         private List<Patente> _patentesRepository = new List<Patente>();
         private bool onInit = true;
         private int _patentesCount;
-
-        public PatenteService() { }
-
+        public PatenteService()
+        {
+            _patentesRepository = GetList(false);
+        }
         public List<Patente> GetList(bool info = true)
         {
             if (File.Exists(_filePath))
@@ -62,10 +63,13 @@ namespace AgenciaDeAutos.Servicios
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine("\tAgencia de Automóviles");
-                        Console.Write("\nAún no se ingresaron patentes");
-                        Console.ReadKey();
+                        if (info)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\tAgencia de Automóviles");
+                            Console.Write("\nAún no se ingresaron patentes");
+                            Console.ReadKey();
+                        }
                     }
                 }
                 else
@@ -102,12 +106,10 @@ namespace AgenciaDeAutos.Servicios
             }
             return _patentesRepository;
         }
-
         public void SetList(string nuevaPatente)
         {
             if (!File.Exists(_filePath))
             {
-                _patentesRepository = GetList(false);
                 _file = new FileStream(_filePath, FileMode.Create);
                 _sw = new StreamWriter(_file);
 
@@ -122,7 +124,6 @@ namespace AgenciaDeAutos.Servicios
             }
             else
             {
-                _patentesRepository = GetList(false);
                 _file = new FileStream(_filePath, FileMode.Append);
                 _sw = new StreamWriter(_file);
 
@@ -139,12 +140,11 @@ namespace AgenciaDeAutos.Servicios
                 _file.Close();
             }
         }
-        
         public void DeleteItem(string viejaPatente, bool info = true)
         {
             if (File.Exists(_filePath))
             {
-                _patentesRepository = GetList(false);
+                Patente _patenteARemover = new Patente();
                 /* Verifico si existe el automóvil en el repositorio */
                 bool patenteEncontrada = false;
                 int indexToRemove = -1;
@@ -153,6 +153,7 @@ namespace AgenciaDeAutos.Servicios
                 {
                     if (_patentesRepository[i].Nombre == viejaPatente)
                     {
+                        _patenteARemover = _patentesRepository[i];
                         patenteEncontrada = true;
                         indexToRemove = i;
                         break;
@@ -166,8 +167,9 @@ namespace AgenciaDeAutos.Servicios
                     patentes.RemoveAt(indexToRemove); // Eliminar la línea correspondiente al vehículo
                     /* Escribir las líneas actualizadas en el archivo */
                     File.WriteAllLines(_filePath, patentes);
+                    _patentesRepository.Remove(_patenteARemover);
 
-                    if(info)
+                    if (info)
                     {
                         Console.Clear();
                         Console.WriteLine("\tAgencia de Automóviles");
@@ -177,7 +179,7 @@ namespace AgenciaDeAutos.Servicios
                 }
                 else
                 {
-                    if(info)
+                    if (info)
                     {
                         Console.Clear();
                         Console.WriteLine("\tAgencia de Automóviles");
@@ -185,7 +187,7 @@ namespace AgenciaDeAutos.Servicios
                             "\nLa patente que desea remover no se encuentra en la concesionaria"
                         );
                         Console.ReadKey();
-                    }     
+                    }
                 }
             }
             else

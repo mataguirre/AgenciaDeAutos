@@ -36,12 +36,10 @@ namespace AgenciaDeAutos
                     Console.ReadKey();
                 }
             }
-
             VehiculoService servicioVehiculos = new VehiculoService();
             PatenteService servicioPatentes = new PatenteService();
 
             Menu();
-
             while (opc != 5)
             {
                 switch (opc)
