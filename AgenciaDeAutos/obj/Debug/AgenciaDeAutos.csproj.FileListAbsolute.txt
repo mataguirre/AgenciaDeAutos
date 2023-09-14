@@ -5,3 +5,10 @@ C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\
 C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.csproj.CoreCompileInputs.cache
 C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.exe
 C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.pdb
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.exe.config
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.exe
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.pdb
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.csproj.AssemblyReference.cache
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.csproj.CoreCompileInputs.cache
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.exe
+D:\Github\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.pdb
