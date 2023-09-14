@@ -21,7 +21,7 @@ namespace AgenciaDeAutos
                 Console.WriteLine("3) Remover automóvil");
                 Console.WriteLine("4) Cerrar programa");
                 Console.Write("\nIngrese una opción: ");
-                if(!int.TryParse(Console.ReadLine(), out opc) || opc > 3 || opc < 1)
+                if(!int.TryParse(Console.ReadLine(), out opc) || opc > 4 || opc < 1)
                 {
                     Console.Clear();
                     Console.WriteLine("Ingrese una opción válida");
