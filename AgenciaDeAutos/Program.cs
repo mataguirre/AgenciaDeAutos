@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AgenciaDeAutos.Servicios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,23 +20,31 @@ namespace AgenciaDeAutos
                 Console.WriteLine("\n1) Listar automóviles");
                 Console.WriteLine("2) Ingresar automóvil");
                 Console.WriteLine("3) Remover automóvil");
-                Console.WriteLine("4) Cerrar programa");
+                Console.WriteLine("4) Listar patentes");
+                Console.WriteLine("5) Cerrar programa");
                 Console.Write("\nIngrese una opción: ");
-                if(!int.TryParse(Console.ReadLine(), out opc) || opc > 4 || opc < 1)
+                if (!int.TryParse(Console.ReadLine(), out opc) || opc > 5 || opc < 1)
                 {
                     Console.Clear();
-                    Console.WriteLine("Ingrese una opción válida");
+                    Console.WriteLine("\tAgencia de Automóviles");
+                    Console.WriteLine("\n1) Listar automóviles");
+                    Console.WriteLine("2) Ingresar automóvil");
+                    Console.WriteLine("3) Remover automóvil");
+                    Console.WriteLine("4) Listar patentes");
+                    Console.WriteLine("5) Cerrar programa");
+                    Console.Write("\nIngrese una opción válida");
                     Console.ReadKey();
                 }
             }
 
             VehiculoService servicioVehiculos = new VehiculoService();
+            PatenteService servicioPatentes = new PatenteService();
 
             Menu();
 
-            while(opc != 4)
+            while (opc != 5)
             {
-                switch(opc)
+                switch (opc)
                 {
                     case 1:
                         servicioVehiculos.GetList();
@@ -44,7 +53,10 @@ namespace AgenciaDeAutos
                         servicioVehiculos.SetList();
                         break;
                     case 3:
-                        servicioVehiculos.DeleteItem("ddo668");
+                        servicioVehiculos.DeleteItem();
+                        break;
+                    case 4:
+                        servicioPatentes.GetList();
                         break;
                 }
                 Menu();
@@ -52,7 +64,12 @@ namespace AgenciaDeAutos
 
             Console.Clear();
             Console.WriteLine("\tAgencia de Automóviles");
-            Console.Write("\nFinalizando programa...");
+            Console.WriteLine("\n1) Listar automóviles");
+            Console.WriteLine("2) Ingresar automóvil");
+            Console.WriteLine("3) Remover automóvil");
+            Console.WriteLine("4) Listar patentes");
+            Console.WriteLine("5) Cerrar programa");
+            Console.Write("\nFinalizando programa");
             Console.ReadKey();
         }
     }

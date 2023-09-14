@@ -46,6 +46,7 @@
     <Compile Include="Entidades\Cliente.cs" />
     <Compile Include="Entidades\Combustible.cs" />
     <Compile Include="Entidades\Marca.cs" />
+    <Compile Include="Entidades\Patente.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entidades\Provincia.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Servicios\ClienteService.cs" />
     <Compile Include="Servicios\CombustibleService.cs" />
     <Compile Include="Servicios\MarcaService.cs" />
+    <Compile Include="Servicios\PatenteService.cs" />
     <Compile Include="Servicios\ProvinciaService.cs" />
     <Compile Include="Servicios\SegmentoService.cs" />
     <Compile Include="Servicios\VehiculoService.cs" />
