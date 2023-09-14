@@ -1,0 +1,7 @@
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.exe.config
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.exe
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\bin\Debug\AgenciaDeAutos.pdb
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.csproj.AssemblyReference.cache
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.csproj.CoreCompileInputs.cache
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.exe
+C:\Users\María José\source\repos\Laboratorio_II\AgenciaDeAutos\AgenciaDeAutos\obj\Debug\AgenciaDeAutos.pdb
