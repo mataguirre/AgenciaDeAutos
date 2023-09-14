@@ -91,7 +91,7 @@ namespace AgenciaDeAutos
                     }
                     Console.Clear();
                     Console.WriteLine("\tAgencia de Automóviles");
-                    Console.Write("\nEl repositorio de automóviles se encuentra vacío");
+                    Console.Write("\nRepositorio de automóviles se encuentra vacío");
                     _sr.Close();
                     _file.Close();
                 }
