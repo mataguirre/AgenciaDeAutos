@@ -56,19 +56,12 @@ namespace AgenciaDeAutos
                     case 4:
                         servicioPatentes.GetList();
                         break;
+                    case 5:
+                        servicioArchivos.ResetFile();
+                        break;
                 }
                 Menu();
             }
-
-            Console.Clear();
-            Console.WriteLine("\tAgencia de Automóviles");
-            Console.WriteLine("\n1) Listar automóviles");
-            Console.WriteLine("2) Ingresar automóvil");
-            Console.WriteLine("3) Remover automóvil");
-            Console.WriteLine("4) Listar patentes");
-            Console.WriteLine("5) Cerrar programa");
-            Console.Write("\nFinalizando programa");
-            Console.ReadKey();
         }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="Entidades\Vehiculo.cs" />
     <Compile Include="Servicios\ClienteService.cs" />
     <Compile Include="Servicios\CombustibleService.cs" />
+    <Compile Include="Servicios\FileCleaner.cs" />
     <Compile Include="Servicios\MarcaService.cs" />
     <Compile Include="Servicios\PatenteService.cs" />
     <Compile Include="Servicios\ProvinciaService.cs" />
