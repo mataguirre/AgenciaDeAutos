@@ -9,8 +9,6 @@ namespace AgenciaDeAutos.Servicios
 {
     public class FileCleaner
     {
-        private FileStream _file;
-
         public FileCleaner()
         {
 
@@ -21,20 +19,22 @@ namespace AgenciaDeAutos.Servicios
             if (File.Exists(filePathToDelete))
             {
                 File.Delete(filePathToDelete);
-                if(info)
+                if (info)
                 {
                     Console.Clear();
                     Console.Write($"Archivo {filePathToDelete} borrado correctamente");
                     Console.ReadKey();
                 }
-;            } else
+            }
+            else
             {
                 if (info)
                 {
                     Console.Clear();
                     Console.Write("El archivo que intenta borrar es inexistente");
                     Console.ReadKey();
-                
+
+                }
             }
         }
     }
