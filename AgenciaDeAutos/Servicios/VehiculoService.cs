@@ -35,30 +35,13 @@ namespace AgenciaDeAutos
         private readonly string _segmentosFilePath = "Segmentos.txt";
         private bool onInit = true;
         private int _vehiculosCount;
+        int anchoTotal = 105;
 
         public VehiculoService()
         {
             _vehiculosRepository = GetList(false);
             _patentesRepository = _patenteService.GetList(false);
         }
-        /*public Vehiculo GetVehiculo(string patente)
-        {
-            if (File.Exists(_vehiculosFilePath))
-            {
-                _file = new FileStream(_vehiculosFilePath, FileMode.Open);
-                _sr = new StreamReader(_vehiculosFilePath);
-                Vehiculo vehiculoEncontrado = new Vehiculo();
-                bool found = false;
-                while(!_sr.EndOfStream)
-                {
-                    string[] fields = _sr.ReadLine().Split(';');
-                    if (fields[0] == patente)
-                    {
-
-                    }
-                }
-            }
-        }*/
         public List<Vehiculo> GetList(bool info = true)
         {
             if (File.Exists(_vehiculosFilePath))
@@ -66,7 +49,11 @@ namespace AgenciaDeAutos
                 if (info)
                 {
                     Console.Clear();
-                    Console.WriteLine("\tListado de Automóviles");
+                    // Imprimir la parte superior de la tabla
+                    Console.WriteLine("\tListado de Herramientas\n");
+                    Console.WriteLine(new string('-', anchoTotal));
+                    Console.WriteLine($"| {"Patente", -7} | {"Año",-5} | {"Combustible",-4} | {"Kilometros", -10} | {"Segmento",-4} | {"Precio", -5} | {"Observaciones",-10} | {"Modelo", -5} | {"Marca",-5} |");
+                    Console.WriteLine(new string('-', anchoTotal));
                 }
                 _file = new FileStream(_vehiculosFilePath, FileMode.Open);
                 _sr = new StreamReader(_file);
@@ -82,15 +69,9 @@ namespace AgenciaDeAutos
 
                             if (info)
                             {
-                                Console.WriteLine($"\nPatente: {fields[1]}");
-                                Console.WriteLine($"Modelo: {fields[8]}");
-                                Console.WriteLine($"Año: {fields[2]}");
-                                Console.WriteLine($"Combustible: {fields[3]}");
-                                Console.WriteLine($"Kilometros: {fields[4]} km");
-                                Console.WriteLine($"Segmento: {fields[5]}");
-                                Console.WriteLine($"Precio de Venta: ${fields[6]}");
-                                Console.WriteLine($"Observaciones: {fields[7]}");
-                                Console.WriteLine($"Marca: {fields[9]}");
+                                Console.WriteLine(
+                                    $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
+                                );
                             }
 
                             Vehiculo _vehiculo = new Vehiculo();
@@ -135,15 +116,9 @@ namespace AgenciaDeAutos
 
                         if (info)
                         {
-                            Console.WriteLine($"\nPatente: {fields[1]}");
-                            Console.WriteLine($"Modelo: {fields[8]}");
-                            Console.WriteLine($"Año: {fields[2]}");
-                            Console.WriteLine($"Combustible: {fields[3]}");
-                            Console.WriteLine($"Kilometros: {fields[4]} km");
-                            Console.WriteLine($"Segmento: {fields[5]}");
-                            Console.WriteLine($"Precio de Venta: ${fields[6]}");
-                            Console.WriteLine($"Observaciones: {fields[7]}");
-                            Console.WriteLine($"Marca: {fields[9]}");
+                            Console.WriteLine(
+                                $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
+                            );
                         }
                         _vehiculosCount++;
                     }
@@ -168,6 +143,7 @@ namespace AgenciaDeAutos
             }
             return _vehiculosRepository;
         }
+
         public void SetList()
         {
             Console.Clear();
@@ -308,6 +284,7 @@ namespace AgenciaDeAutos
                 Console.ReadKey();
             }
         }
+
         public void DeleteItem()
         {
             if (File.Exists(_vehiculosFilePath))
