@@ -41,6 +41,24 @@ namespace AgenciaDeAutos
             _vehiculosRepository = GetList(false);
             _patentesRepository = _patenteService.GetList(false);
         }
+        /*public Vehiculo GetVehiculo(string patente)
+        {
+            if (File.Exists(_vehiculosFilePath))
+            {
+                _file = new FileStream(_vehiculosFilePath, FileMode.Open);
+                _sr = new StreamReader(_vehiculosFilePath);
+                Vehiculo vehiculoEncontrado = new Vehiculo();
+                bool found = false;
+                while(!_sr.EndOfStream)
+                {
+                    string[] fields = _sr.ReadLine().Split(';');
+                    if (fields[0] == patente)
+                    {
+
+                    }
+                }
+            }
+        }*/
         public List<Vehiculo> GetList(bool info = true)
         {
             if (File.Exists(_vehiculosFilePath))
@@ -53,7 +71,7 @@ namespace AgenciaDeAutos
                 _file = new FileStream(_vehiculosFilePath, FileMode.Open);
                 _sr = new StreamReader(_file);
 
-                if (_vehiculosRepository.Count() == 0 || onInit)
+                if (_vehiculosRepository.Count() == 0 && onInit)
                 {
                     if (!_sr.EndOfStream)
                     {

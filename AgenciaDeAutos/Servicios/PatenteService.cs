@@ -32,7 +32,7 @@ namespace AgenciaDeAutos.Servicios
                 }
                 _file = new FileStream(_filePath, FileMode.Open);
                 _sr = new StreamReader(_file);
-                if (_patentesRepository.Count() == 0 || onInit)
+                if (_patentesRepository.Count() == 0 && onInit)
                 {
                     if (!_sr.EndOfStream)
                     {

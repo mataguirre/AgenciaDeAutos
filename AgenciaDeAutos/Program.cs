@@ -21,9 +21,10 @@ namespace AgenciaDeAutos
                 Console.WriteLine("2) Ingresar automóvil");
                 Console.WriteLine("3) Remover automóvil");
                 Console.WriteLine("4) Listar patentes");
-                Console.WriteLine("5) Cerrar programa");
+                Console.WriteLine("5) Reiniciar datos");
+                Console.WriteLine("6) Cerrar programa");
                 Console.Write("\nIngrese una opción: ");
-                if (!int.TryParse(Console.ReadLine(), out opc) || opc > 5 || opc < 1)
+                if (!int.TryParse(Console.ReadLine(), out opc) || opc > 6 || opc < 1)
                 {
                     Console.Clear();
                     Console.WriteLine("\tAgencia de Automóviles");
@@ -31,16 +32,23 @@ namespace AgenciaDeAutos
                     Console.WriteLine("2) Ingresar automóvil");
                     Console.WriteLine("3) Remover automóvil");
                     Console.WriteLine("4) Listar patentes");
-                    Console.WriteLine("5) Cerrar programa");
+                    Console.WriteLine("5) Reiniciar datos");
+                    Console.WriteLine("6) Cerrar programa");
                     Console.Write("\nIngrese una opción válida");
                     Console.ReadKey();
                 }
             }
             VehiculoService servicioVehiculos = new VehiculoService();
             PatenteService servicioPatentes = new PatenteService();
+            FileCleaner servicioArchivos = new FileCleaner();
+            string[] archivos =
+            {
+                "Vehiculos.txt",
+                "Patentes.txt"
+            };
 
             Menu();
-            while (opc != 5)
+            while (opc != 6)
             {
                 switch (opc)
                 {
@@ -57,7 +65,7 @@ namespace AgenciaDeAutos
                         servicioPatentes.GetList();
                         break;
                     case 5:
-                        servicioArchivos.ResetFile();
+                        servicioArchivos.DeleteFiles(archivos);
                         break;
                 }
                 Menu();

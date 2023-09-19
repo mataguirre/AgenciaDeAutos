@@ -9,31 +9,32 @@ namespace AgenciaDeAutos.Servicios
 {
     public class FileCleaner
     {
-        public FileCleaner()
-        {
+        public FileCleaner() { }
 
-        }
-
-        public void DeleteFile(string filePathToDelete, bool info = true)
+        public void DeleteFiles(string[] filesPathToDelete, bool info = true)
         {
-            if (File.Exists(filePathToDelete))
+            foreach (string file in filesPathToDelete)
             {
-                File.Delete(filePathToDelete);
-                if (info)
+                if (File.Exists(file))
                 {
-                    Console.Clear();
-                    Console.Write($"Archivo {filePathToDelete} borrado correctamente");
-                    Console.ReadKey();
+                    File.Delete(file);
+                    if (info)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\tAgencia de Automóviles");
+                        Console.Write($"\nArchivo {file} borrado correctamente");
+                        Console.ReadKey();
+                    }
                 }
-            }
-            else
-            {
-                if (info)
+                else
                 {
-                    Console.Clear();
-                    Console.Write("El archivo que intenta borrar es inexistente");
-                    Console.ReadKey();
-
+                    if (info)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\tAgencia de Automóviles");
+                        Console.Write($"\nEl archivo {file} que intenta borrar es inexistente");
+                        Console.ReadKey();
+                    }
                 }
             }
         }
