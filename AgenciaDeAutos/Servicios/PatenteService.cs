@@ -17,6 +17,7 @@ namespace AgenciaDeAutos.Servicios
         private List<Patente> _patentesRepository = new List<Patente>();
         private bool onInit = true;
         private int _patentesCount;
+        int anchoTotal = 50;
         public PatenteService()
         {
             _patentesRepository = GetList(false);
@@ -28,7 +29,11 @@ namespace AgenciaDeAutos.Servicios
                 if (info)
                 {
                     Console.Clear();
-                    Console.WriteLine("\tListado de Patentes");
+                    // Imprimir la parte superior de la tabla
+                    Console.WriteLine("\tListado de Herramientas\n");
+                    Console.WriteLine(new string('-', anchoTotal));
+                    Console.WriteLine($"| {"Id",-36} | {"Nombre",-7} |");
+                    Console.WriteLine(new string('-', anchoTotal));
                 }
                 _file = new FileStream(_filePath, FileMode.Open);
                 _sr = new StreamReader(_file);
@@ -43,7 +48,10 @@ namespace AgenciaDeAutos.Servicios
 
                             if (info)
                             {
-                                Console.WriteLine($"\nId: {fields[0]}, Nombre: {fields[1]}");
+                                Console.WriteLine(
+                                    $"| {fields[0],-20} | {fields[1],-7} |"
+                                );
+                                Console.WriteLine(new string('-', anchoTotal));
                             }
 
                             Patente _patente = new Patente(); // Crear una nueva instancia de Patente para cada línea
@@ -81,7 +89,10 @@ namespace AgenciaDeAutos.Servicios
 
                         if (info)
                         {
-                            Console.WriteLine($"\nId: {fields[0]}, Nombre: {fields[1]}");
+                            Console.WriteLine(
+                                    $"| {fields[0],-20} | {fields[1],-7} |"
+                                );
+                            Console.WriteLine(new string('-', anchoTotal));
                         }
                         _patentesCount++;
                     }

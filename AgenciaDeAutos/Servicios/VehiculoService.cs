@@ -72,6 +72,7 @@ namespace AgenciaDeAutos
                                 Console.WriteLine(
                                     $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
                                 );
+                                Console.WriteLine(new string('-', anchoTotal));
                             }
 
                             Vehiculo _vehiculo = new Vehiculo();
@@ -119,6 +120,7 @@ namespace AgenciaDeAutos
                             Console.WriteLine(
                                 $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
                             );
+                            Console.WriteLine(new string('-', anchoTotal));
                         }
                         _vehiculosCount++;
                     }
