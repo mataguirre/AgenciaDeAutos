@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\CreateUpdateVehiculoDto.cs" />
+    <Compile Include="DTOs\VehiculoDto.cs" />
     <Compile Include="Entidades\Cliente.cs" />
     <Compile Include="Entidades\Combustible.cs" />
     <Compile Include="Entidades\Marca.cs" />

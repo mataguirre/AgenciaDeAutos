@@ -1,4 +1,5 @@
-﻿using AgenciaDeAutos.Entidades;
+﻿using AgenciaDeAutos.DTOs;
+using AgenciaDeAutos.Entidades;
 using AgenciaDeAutos.Servicios;
 using System;
 using System.Collections.Generic;
@@ -12,122 +13,107 @@ namespace AgenciaDeAutos
 {
     public class VehiculoService
     {
-        private PatenteService _patenteService = new PatenteService();
-        private List<Patente> _patentesRepository = new List<Patente>();
         private StreamReader _sr;
         private StreamWriter _sw;
         private FileStream _file;
-        private Guid _id;
-        private string _patente;
-        private decimal _kilometros;
-        private int _anio;
-        private int _marcaId;
-        private string _modelo;
-        private int _segmentoId;
-        private int _combustibleId;
-        private decimal _precioVenta;
-        private string _observaciones;
         private List<Vehiculo> _vehiculosRepository = new List<Vehiculo>();
+        private List<Combustible> _combustiblesRepository = new List<Combustible>()
+        {
+            new Combustible
+            {
+                Id = 1,
+                Nombre = "Diesel"
+            },
+            new Combustible
+            {
+                Id = 2,
+                Nombre = "Nafta"
+            },
+            new Combustible
+            {
+                Id = 3,
+                Nombre = "Gas"
+            },
+            new Combustible
+            {
+                Id = 4,
+                Nombre = "Gasoil"
+            }
+        };
+        private List<Segmento> _segmentosRepository = new List<Segmento>()
+        {
+            new Segmento()
+            {
+                Id = 1,
+                Nombre = "Sedan"
+            },
+            new Segmento()
+            {
+                Id = 2,
+                Nombre = "Coupe"
+            },
+            new Segmento()
+            {
+                Id = 3,
+                Nombre = "Scooter"
+            },
+            new Segmento()
+            {
+                Id = 4,
+                Nombre = "Rutera"
+            }
+        };
+        private List<Marca> _marcasRepository = new List<Marca>()
+        {
+            new Marca()
+            {
+                Id = 1,
+                Nombre = "Chevrolet"
+            },
+            new Marca()
+            {
+                Id = 2,
+                Nombre = "Peugeot"
+            },
+             new Marca()
+            {
+                Id = 3,
+                Nombre = "Nissan"
+            }
+        };
         private readonly string _vehiculosFilePath = "Vehiculos.txt";
-        private readonly string _patentesFilePath = "Patentes.txt";
-        private readonly string _marcasFilePath = "Marcas.txt";
-        private readonly string _combustiblesFilePath = "Combustibles.txt";
-        private readonly string _segmentosFilePath = "Segmentos.txt";
-        private bool onInit = true;
-        private int _vehiculosCount;
-        int anchoTotal = 105;
 
         public VehiculoService()
         {
-            _vehiculosRepository = GetList(false);
-            _patentesRepository = _patenteService.GetList(false);
+            CargarDatos();
         }
-        public List<Vehiculo> GetList(bool info = true)
+
+        public void CargarDatos()
         {
             if (File.Exists(_vehiculosFilePath))
             {
-                if (info)
-                {
-                    Console.Clear();
-                    // Imprimir la parte superior de la tabla
-                    Console.WriteLine("\tListado de Herramientas\n");
-                    Console.WriteLine(new string('-', anchoTotal));
-                    Console.WriteLine($"| {"Patente", -7} | {"Año",-5} | {"Combustible",-4} | {"Kilometros", -10} | {"Segmento",-4} | {"Precio", -5} | {"Observaciones",-10} | {"Modelo", -5} | {"Marca",-5} |");
-                    Console.WriteLine(new string('-', anchoTotal));
-                }
                 _file = new FileStream(_vehiculosFilePath, FileMode.Open);
                 _sr = new StreamReader(_file);
-
-                if (_vehiculosRepository.Count() == 0 && onInit)
+                while (!_sr.EndOfStream)
                 {
-                    if (!_sr.EndOfStream)
-                    {
-                        _vehiculosCount = 0;
-                        while (!_sr.EndOfStream)
-                        {
-                            string[] fields = _sr.ReadLine().Split(';');
+                    string[] fields = _sr.ReadLine().Split(';');
 
-                            if (info)
-                            {
-                                Console.WriteLine(
-                                    $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
-                                );
-                                Console.WriteLine(new string('-', anchoTotal));
-                            }
+                    Vehiculo _vehiculo = new Vehiculo();
+                    _vehiculo.Id = int.Parse(fields[0]);
+                    _vehiculo.Patente = fields[1];
+                    _vehiculo.Anio = int.Parse(fields[2]);
+                    _vehiculo.MarcaId = int.Parse(fields[3]);
+                    _vehiculo.CombustibleId = int.Parse(fields[4]);
+                    _vehiculo.Kilometros = decimal.Parse(fields[5]);
+                    _vehiculo.SegmentoId = int.Parse(fields[6]);
+                    _vehiculo.PrecioVenta = decimal.Parse(fields[7]);
+                    _vehiculo.Observaciones = fields[8];
+                    _vehiculo.Modelo = fields[9];
+                    _vehiculo.Color = fields[10];
 
-                            Vehiculo _vehiculo = new Vehiculo();
-                            _vehiculo.Id = Guid.Parse(fields[0]);
-                            _vehiculo.Patente = fields[1];
-                            _vehiculo.Anio = int.Parse(fields[2]);
-                            _vehiculo.CombustibleId = int.Parse(fields[3]);
-                            _vehiculo.Kilometros = decimal.Parse(fields[4]);
-                            _vehiculo.SegmentoId = int.Parse(fields[5]);
-                            _vehiculo.PrecioVenta = decimal.Parse(fields[6]);
-                            _vehiculo.Observaciones = fields[7];
-                            _vehiculo.Modelo = fields[8];
-                            _vehiculo.MarcaId = int.Parse(fields[9]);
-
-                            _vehiculosRepository.Add(_vehiculo);
-                            _vehiculosCount++;
-                        }
-                        if (info)
-                        {
-                            Console.Write($"\nCantidad de automóviles: {_vehiculosCount}");
-                            Console.ReadKey();
-                        }
-                        onInit = false;
-                    }
-                    else
+                    if (!_vehiculosRepository.Any(x => x.Patente == _vehiculo.Patente || x.Id == _vehiculo.Id))
                     {
-                        if (info)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("\tAgencia de Automóviles");
-                            Console.Write("\nAún no se ingresaron automóviles");
-                            Console.ReadKey();
-                        }
-                    }
-                }
-                else
-                {
-                    _vehiculosCount = 0;
-                    while (!_sr.EndOfStream)
-                    {
-                        string[] fields = _sr.ReadLine().Split(';');
-
-                        if (info)
-                        {
-                            Console.WriteLine(
-                                $"| {fields[1], -7} | {fields[2], -5} | {fields[3], -4} | {fields[4], -4} | {fields[5], -10} | ${fields[6], -4} | {fields[7], -5} | {fields[8], -10} | {fields[9], -5} |"
-                            );
-                            Console.WriteLine(new string('-', anchoTotal));
-                        }
-                        _vehiculosCount++;
-                    }
-                    if (info)
-                    {
-                        Console.Write($"\nCantidad de automóviles: {_vehiculosCount}");
-                        Console.ReadKey();
+                        _vehiculosRepository.Add(_vehiculo);
                     }
                 }
                 _sr.Close();
@@ -135,215 +121,125 @@ namespace AgenciaDeAutos
             }
             else
             {
-                if (info)
-                {
-                    Console.Clear();
-                    Console.WriteLine("\tAgencia de Automóviles");
-                    Console.Write("\nConcesionaria inhabilitada por el momento");
-                    Console.ReadKey();
-                }
-            }
-            return _vehiculosRepository;
-        }
-
-        public void SetList()
-        {
-            Console.Clear();
-            if (!File.Exists(_vehiculosFilePath))
-            {
-                Console.WriteLine("\tAgencia de Automóviles");
-                /* Instancio la clase FileStream */
                 _file = new FileStream(_vehiculosFilePath, FileMode.Create);
-                /* Instancio la clase StreamReader */
-                _sw = new StreamWriter(_file);
-                /* Asigno el ID */
-                _id = Guid.NewGuid();
-                /* Ingreso la patente */
-                Console.Write("\nIngrese patente: ");
-                _patente = Console.ReadLine().ToLower();
-                /* Ingreso kilometros */
-                Console.Write("Ingrese kilometros: ");
-                _kilometros = decimal.Parse(Console.ReadLine());
-                /* Ingreso año */
-                Console.Write("Ingrese año: ");
-                _anio = int.Parse(Console.ReadLine());
-                /* Ingrese ID de marca */
-                Console.Write("Ingrese ID de marca: ");
-                _marcaId = int.Parse(Console.ReadLine());
-                /* Ingreso modelo */
-                Console.Write("Ingrese modelo: ");
-                _modelo = Console.ReadLine();
-                /* Ingreso ID de segmento */
-                Console.Write("Ingrese ID de segmento: ");
-                _segmentoId = int.Parse(Console.ReadLine());
-                /* Ingreso ID de combustible */
-                Console.Write("Ingrese ID de combustible: ");
-                _combustibleId = int.Parse(Console.ReadLine());
-                /* Ingreso precio de venta */
-                Console.Write("Ingrese precio de venta: $");
-                _precioVenta = decimal.Parse(Console.ReadLine());
-                /* Ingreso observaciones */
-                Console.Write("Ingrese observaciones: ");
-                _observaciones = Console.ReadLine();
-
-                Vehiculo _vehiculo = new Vehiculo();
-                _vehiculo.Id = _id;
-                _vehiculo.Patente = _patente;
-                _vehiculo.Anio = _anio;
-                _vehiculo.MarcaId = _marcaId;
-                _vehiculo.CombustibleId = _combustibleId;
-                _vehiculo.Kilometros = _kilometros;
-                _vehiculo.SegmentoId = _segmentoId;
-                _vehiculo.PrecioVenta = _precioVenta;
-                _vehiculo.Observaciones = _observaciones;
-                _vehiculo.Modelo = _modelo;
-
-                _vehiculosRepository.Add(_vehiculo);
-
-                _sw.WriteLine(
-                    $"{_id};{_patente};{_anio};{_combustibleId};{_kilometros};{_segmentoId};{_precioVenta};{_observaciones};{_modelo};{_marcaId}"
-                );
-
-                _sw.Close();
+                GetVehicles();
                 _file.Close();
 
-                _patenteService.SetList(_vehiculo.Patente);
-                Console.Write("\nAutomóvil ingresado correctamente");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.WriteLine("\tAgencia de Automóviles");
-                /* Instancio la clase FileStream */
-                _file = new FileStream(_vehiculosFilePath, FileMode.Append);
-                /* Instancio la clase StreamReader */
-                _sw = new StreamWriter(_file);
-                /* Asigno el ID */
-                _id = Guid.NewGuid();
-                /* Ingreso la patente */
-                Console.Write("\nIngrese patente: ");
-                _patente = Console.ReadLine().ToLower();
-                /* Verifico que la patente no exista */
-                if (!_patentesRepository.Any(x => x.Nombre == _patente))
-                {
-                    /* Ingreso kilometros */
-                    Console.Write("Ingrese kilometros: ");
-                    _kilometros = decimal.Parse(Console.ReadLine());
-                    /* Ingreso año */
-                    Console.Write("Ingrese año: ");
-                    _anio = int.Parse(Console.ReadLine());
-                    /* Ingrese ID de marca */
-                    Console.Write("Ingrese ID de marca: ");
-                    _marcaId = int.Parse(Console.ReadLine());
-                    /* Ingreso modelo */
-                    Console.Write("Ingrese modelo: ");
-                    _modelo = Console.ReadLine();
-                    /* Ingreso ID de segmento */
-                    Console.Write("Ingrese ID de segmento: ");
-                    _segmentoId = int.Parse(Console.ReadLine());
-                    /* Ingreso ID de combustible */
-                    Console.Write("Ingrese ID de combustible: ");
-                    _combustibleId = int.Parse(Console.ReadLine());
-                    /* Ingreso precio de venta */
-                    Console.Write("Ingrese precio de venta: $");
-                    _precioVenta = decimal.Parse(Console.ReadLine());
-                    /* Ingreso observaciones */
-                    Console.Write("Ingrese observaciones: ");
-                    _observaciones = Console.ReadLine();
-
-                    Vehiculo _vehiculo = new Vehiculo();
-                    _vehiculo.Id = _id;
-                    _vehiculo.Patente = _patente;
-                    _vehiculo.Anio = _anio;
-                    _vehiculo.CombustibleId = _combustibleId;
-                    _vehiculo.Kilometros = _kilometros;
-                    _vehiculo.SegmentoId = _segmentoId;
-                    _vehiculo.PrecioVenta = _precioVenta;
-                    _vehiculo.Observaciones = _observaciones;
-                    _vehiculo.Modelo = _modelo;
-                    _vehiculo.MarcaId = _marcaId;
-
-                    _vehiculosRepository.Add(_vehiculo);
-
-                    _sw.WriteLine(
-                        $"{_id};{_patente};{_anio};{_combustibleId};{_kilometros};{_segmentoId};{_precioVenta};{_observaciones};{_modelo};{_marcaId}"
-                    );
-
-                    _sw.Close();
-                    _file.Close();
-
-                    _patenteService.SetList(_patente);
-                    Console.Write("\nAutomóvil ingresado correctamente");
-                    Console.ReadKey();
-
-                    return;
-                }
-                Console.Clear();
-                Console.WriteLine("\tAgencia de Automóviles");
-                Console.Write("\nEste automóvil ya fue previamente ingresado");
-                _sw.Close();
-                _file.Close();
-                Console.ReadKey();
             }
         }
-
-        public void DeleteItem()
+        public List<VehiculoDto> GetVehicles()
         {
             if (File.Exists(_vehiculosFilePath))
             {
-                Console.Clear();
-                Console.WriteLine("\tAgencia de Automóviles");
-                Console.Write("\nIngrese la patente del automóvil a retirar: ");
-                string patente = Console.ReadLine();
-                Vehiculo _vehiculoARemover = new Vehiculo();
-                /* Verifico si existe el automóvil en el repositorio */
-                bool vehiculoEncontrado = false;
-                int indexToRemove = -1;
+                var query = from vehicle in _vehiculosRepository
+                            join combustible in _combustiblesRepository
+                                on vehicle.CombustibleId equals combustible.Id
+                            join segmento in _segmentosRepository
+                                on vehicle.SegmentoId equals segmento.Id
+                            join marca in _marcasRepository
+                                on vehicle.MarcaId equals marca.Id
+                            select new { vehicle, segmento, marca, combustible };
 
-                for (int i = 0; i < _vehiculosRepository.Count; i++)
+                var results = query.ToList();
+
+                var vehiculosDto = results.Select(result => new VehiculoDto()
                 {
-                    if (_vehiculosRepository[i].Patente == patente)
-                    {
-                        _vehiculoARemover = _vehiculosRepository[i];
-                        vehiculoEncontrado = true;
-                        indexToRemove = i;
-                        break;
-                    }
-                }
+                    Anio = result.vehicle.Anio,
+                    Observaciones = result.vehicle.Observaciones,
+                    Color = result.vehicle.Color,
+                    Kilometros = result.vehicle.Kilometros,
+                    Modelo = result.vehicle.Modelo,
+                    Patente = result.vehicle.Patente,
+                    PrecioVenta = result.vehicle.PrecioVenta,
+                    Segmento = result.segmento.Nombre,
+                    Marca = result.marca.Nombre,
+                    Combustible = result.combustible.Nombre
+                }).ToList();
 
-                if (vehiculoEncontrado)
+                return vehiculosDto;
+            } else
+            {
+                return new List<VehiculoDto>();
+            }
+        }
+
+        public void CreateVehicle(CreateUpdateVehiculoDto input)
+        {
+            if (File.Exists(_vehiculosFilePath))
+            {
+                _file = new FileStream(_vehiculosFilePath, FileMode.Open);
+                _sw = new StreamWriter(_file);
+                Vehiculo _vehiculo = new Vehiculo();
+                Random random = new Random();
+                _vehiculo.Id = random.Next();
+                _vehiculo.Patente = input.Patente;
+                _vehiculo.Anio = input.Anio;
+                _vehiculo.MarcaId = input.MarcadId;
+                _vehiculo.CombustibleId = input.CombustibleId;
+                _vehiculo.Kilometros = input.Kilometros;
+                _vehiculo.SegmentoId = input.SegmentoId;
+                _vehiculo.PrecioVenta = input.PrecioVenta;
+                _vehiculo.Observaciones = input.Observaciones;
+                _vehiculo.Modelo = input.Modelo;
+                _vehiculo.Color = input.Color;
+
+                if (!_vehiculosRepository.Any(x => x.Patente == input.Patente))
                 {
-                    /* Leer todas las líneas del archivo excepto la que se va a eliminar */
-                    List<string> vehiculos = File.ReadAllLines(_vehiculosFilePath).ToList();
-                    vehiculos.RemoveAt(indexToRemove); // Eliminar la línea correspondiente al vehículo
-                    /* Escribir las líneas actualizadas en el archivo */
-                    File.WriteAllLines(_vehiculosFilePath, vehiculos);
+                    _vehiculosRepository.Add(_vehiculo);
 
-                    _patenteService.DeleteItem(patente);
-
-                    _vehiculosRepository.Remove(_vehiculoARemover);
-
-                    Console.Clear();
-                    Console.WriteLine("\tAgencia de Automóviles");
-                    Console.Write("\nAutomóvil retirado correctamente");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("\tAgencia de Automóviles");
-                    Console.Write(
-                        "\nEl autómovil que desea remover no se encuentra en la concesionaria"
+                    _sw.WriteLine(
+                        $"{_vehiculo.Id};{_vehiculo.Patente};{_vehiculo.Anio};{_vehiculo.MarcaId};{_vehiculo.CombustibleId};{_vehiculo.Kilometros};{_vehiculo.SegmentoId};{_vehiculo.PrecioVenta};{_vehiculo.Observaciones};{_vehiculo.Modelo};{_vehiculo.Color}"
                     );
-                    Console.ReadKey();
+                };
+
+                _sw.Close();
+                _file.Close();
+            }
+        }
+
+        public void UpdateVehicle(CreateUpdateVehiculoDto input)
+        {
+            if (File.Exists(_vehiculosFilePath))
+            {
+                Vehiculo _vehiculoAEditar = _vehiculosRepository.FirstOrDefault(x => x.Patente == input.Patente);
+                var _vehicleIndex = _vehiculosRepository.IndexOf(_vehiculoAEditar);
+
+                if (_vehiculoAEditar != null)
+                {
+                    _vehiculoAEditar.PrecioVenta = input?.PrecioVenta != null ? input.PrecioVenta : _vehiculoAEditar.PrecioVenta;
+                    _vehiculoAEditar.Color = input?.Color != null ? input.Color : _vehiculoAEditar.Color;
+                    _vehiculoAEditar.CombustibleId = input?.CombustibleId != 0 ? input.CombustibleId : _vehiculoAEditar.CombustibleId;
+                    _vehiculoAEditar.Modelo = input?.Modelo != null ? input.Modelo : _vehiculoAEditar.Modelo;
+                    _vehiculoAEditar.MarcaId = input?.MarcadId != 0 ? input.MarcadId : _vehiculoAEditar.MarcaId;
+                    _vehiculoAEditar.SegmentoId = input?.SegmentoId != 0 ? input.SegmentoId : _vehiculoAEditar.SegmentoId;
+                    _vehiculoAEditar.Anio = input?.Anio != 0 ? input.Anio : _vehiculoAEditar.Anio;
+                    _vehiculoAEditar.Kilometros = input?.Kilometros != 0 ? input.Kilometros : _vehiculoAEditar.Kilometros;
+                    _vehiculoAEditar.Observaciones = input?.Observaciones != null ? input.Observaciones : _vehiculoAEditar.Observaciones;
+
+                    _vehiculosRepository[_vehicleIndex] = _vehiculoAEditar;
+
+                    List<string> vehiculos = File.ReadAllLines(_vehiculosFilePath).ToList();
+                    File.WriteAllLines(_vehiculosFilePath, vehiculos);
                 }
             }
-            else
+        }
+
+        public void DeleteVehicle(string patente)
+        {
+            if (File.Exists(_vehiculosFilePath))
             {
-                Console.Clear();
-                Console.WriteLine("\tAgencia de Automóviles");
-                Console.Write("\nConcesionaria inhabilitada por el momento");
-                Console.ReadKey();
+                Vehiculo _vehiculoARemover = _vehiculosRepository.FirstOrDefault(x => x.Patente == patente);
+                int _vehicleIndex = _vehiculosRepository.IndexOf(_vehiculoARemover);
+
+                if (_vehiculoARemover != null)
+                {
+                    List<string> vehiculos = File.ReadAllLines(_vehiculosFilePath).ToList();
+                    vehiculos.RemoveAt(_vehicleIndex);
+                    /*File.WriteAllLines(_vehiculosFilePath, vehiculos);*/
+                    /*_vehiculosRepository.Remove(_vehiculoARemover);*/
+                    _vehiculosRepository.Clear();
+                    CargarDatos();
+                }
             }
         }
     }
