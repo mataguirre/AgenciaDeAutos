@@ -1,10 +1,5 @@
 ﻿using AgenciaDeAutos.DTOs;
-using AgenciaDeAutos.Servicios;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AgenciaDeAutos
 {
@@ -13,8 +8,6 @@ namespace AgenciaDeAutos
         static void Main(string[] args)
         {
             int opc;
-
-            Random random = new Random();
 
             Vehiculo automovil = new Vehiculo()
             {
@@ -25,9 +18,9 @@ namespace AgenciaDeAutos
                 Observaciones = "Usado",
                 PrecioVenta = 4500000,
                 Patente = "DDO668".ToLower(),
-                SegmentoId = 2,
-                MarcaId = 1,
-                CombustibleId = 4,
+                SegmentoId = Guid.Parse("922897ab-fe9d-439f-ab61-939a77811610"),
+                MarcaId = Guid.Parse("322f7e5f-5e9a-4290-a7d3-a2556ce5460d"),
+                CombustibleId = Guid.Parse("281c357b-f9c5-4449-9610-04a30557e455"),
             };
 
             Vehiculo automovil1 = new Vehiculo()
@@ -39,9 +32,9 @@ namespace AgenciaDeAutos
                 Observaciones = "Usado",
                 PrecioVenta = 15000000,
                 Patente = "AA647YC".ToLower(),
-                SegmentoId = 1,
-                MarcaId = 2,
-                CombustibleId = 3,
+                SegmentoId = Guid.Parse("0b225d69-d729-4659-a6c6-14e03be192fd"),
+                MarcaId = Guid.Parse("f451a5a4-b036-487f-a10d-e87804d93c04"),
+                CombustibleId = Guid.Parse("2fb22736-6ac4-4c5f-a846-ebb65eecccf1"),
             };
 
             void Menu()
@@ -67,6 +60,7 @@ namespace AgenciaDeAutos
                     Console.ReadKey();
                 }
             }
+
             VehiculoService servicioVehiculos = new VehiculoService();
 
             Menu();
@@ -133,6 +127,7 @@ namespace AgenciaDeAutos
                     CreateUpdateVehiculoDto input = new CreateUpdateVehiculoDto()
                     {
                         PrecioVenta = 15600000,
+                        Color = "Magenta",
                         Patente = automovil.Patente,
                     };
                     servicioVehiculos.UpdateVehicle(input);

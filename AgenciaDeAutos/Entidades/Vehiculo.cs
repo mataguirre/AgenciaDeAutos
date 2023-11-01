@@ -8,14 +8,14 @@ namespace AgenciaDeAutos
 {
     public class Vehiculo
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Patente { get; set; }
         public decimal Kilometros {  get; set; }
         public int Anio {  get; set; }
-        public int MarcaId { get; set; }
+        public Guid MarcaId { get; set; }
         public string Modelo { get; set; }
-        public int SegmentoId { get; set; }
-        public int CombustibleId { get; set; }
+        public Guid SegmentoId { get; set; }
+        public Guid CombustibleId { get; set; }
         public decimal PrecioVenta { get; set; }
         public string Observaciones { get; set; }
         public string Color { get; set; }
